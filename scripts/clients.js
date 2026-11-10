@@ -78,7 +78,7 @@ async function cargarClientesDesdeJSON() {
     const existentes = await obtenerTodosLosClientes();
     if (existentes.length === 0) {
         try {
-            const respuesta = await fetch('../data/clients.json');
+            const respuesta = await fetch('data/clients.json');
             if (respuesta.ok) {
                 const datos = await respuesta.json();
                 if (datos.clients && Array.isArray(datos.clients)) {
