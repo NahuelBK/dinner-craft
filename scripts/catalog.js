@@ -4,12 +4,11 @@
 
 let baseDatosCatalogo = null;
 const NOMBRE_BD_CATALOGO = 'DinnerCraftDB';
-const VERSION_BD_CATALOGO = 1;
 const ALMACEN_INVENTARIO = 'inventory';
 
 function inicializarBaseDatosCatalogo() {
     return new Promise((resolve) => {
-        const peticion = indexedDB.open(NOMBRE_BD_CATALOGO, VERSION_BD_CATALOGO);
+        const peticion = indexedDB.open(NOMBRE_BD_CATALOGO);
         
         peticion.onerror = () => {
             resolve(null);
