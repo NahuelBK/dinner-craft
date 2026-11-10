@@ -1,31 +1,40 @@
 // ============================================================================
 // SCRIPTS/CLIENTS.JS - Gestión de Clientes Local con IndexedDB, Edición y Favoritos
 // ============================================================================
-
 let baseDatos = null;
 const NOMBRE_BD = 'DinnerCraftDB';
-const VERSION_BD = 1;
 const ALMACEN_CLIENTES = 'clients';
 
 function inicializarBaseDatos() {
     return new Promise((resolve, reject) => {
-        const peticion = indexedDB.open(NOMBRE_BD, VERSION_BD);
+        const solicitudVer = indexedDB.open(NOMBRE_BD);
         
-        peticion.onerror = (evento) => {
-            reject(evento.target.error);
+        solicitudVer.onsuccess = (evento) => {
+            const dbTemp = evento.target.result;
+            const versionActual = dbTemp.version;
+            dbTemp.close();
+
+            const necesitaUpgrade = !dbTemp.objectStoreNames.contains(ALMACEN_CLIENTES);
+            const nuevaVersion = necesitaUpgrade ? versionActual + 1 : versionActual;
+
+            const peticion = indexedDB.open(NOMBRE_BD, nuevaVersion);
+            
+            peticion.onerror = (e) => reject(e.target.error);
+            
+            peticion.onsuccess = (e) => {
+                baseDatos = e.target.result;
+                resolve(baseDatos);
+            };
+            
+            peticion.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains(ALMACEN_CLIENTES)) {
+                    db.createObjectStore(ALMACEN_CLIENTES, { keyPath: 'id', autoIncrement: true });
+                }
+            };
         };
-        
-        peticion.onsuccess = (evento) => {
-            baseDatos = evento.target.result;
-            resolve(baseDatos);
-        };
-        
-        peticion.onupgradeneeded = (evento) => {
-            const db = evento.target.result;
-            if (!db.objectStoreNames.contains(ALMACEN_CLIENTES)) {
-                db.createObjectStore(ALMACEN_CLIENTES, { keyPath: 'id', autoIncrement: true });
-            }
-        };
+
+        solicitudVer.onerror = (e) => reject(e.target.error);
     });
 }
 
@@ -391,7 +400,7 @@ async function registrarPedidoCliente(clienteId, datosPedido) {
     cliente.historialPedidos.push(pedidoParaHistorial);
 
     if (esFiado) {
-        cliente.pedidosFiados.push(pedidoForHistorial);
+        cliente.pedidosFiados.push(pedidoParaHistorial);
     }
 
     await actualizarClienteBD(cliente);
@@ -429,5 +438,4 @@ window.eliminarClienteRemota = async function(id) {
 
 inicializarBaseDatos().then(async () => {
     renderizarListaClientes();
-}).catch(() => {
 });
