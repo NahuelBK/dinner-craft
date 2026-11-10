@@ -10,7 +10,7 @@ let ledger = {};
 
 async function loadInitialData() {
     try {
-        const configRes = await fetch('../data/config.json');
+        const configRes = await fetch('data/config.json');
         const configPlantillaServidor = await configRes.json();
         const configGuardada = localStorage.getItem('dinner_craft_config');
         if (configGuardada) {
@@ -20,10 +20,10 @@ async function loadInitialData() {
             config = configPlantillaServidor;
             localStorage.setItem('dinner_craft_config', JSON.stringify(config));
         }
-        const catalogRes = await fetch('../data/catalog.json');
+        const catalogRes = await fetch('data/catalog.json');
 		catalog = await catalogRes.json();
 
-        const inventoryRes = await fetch('../data/inventory.json');
+        const inventoryRes = await fetch('data/inventory.json');
 		inventory = await inventoryRes.json();
         
         aplicarAparienciaCompleta();
