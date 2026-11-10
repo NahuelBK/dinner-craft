@@ -32,6 +32,7 @@ function inicializarBaseDatos() {
 async function obtenerTodosLosClientes() {
     return new Promise((resolve, reject) => {
         if (!baseDatos) return resolve([]);
+        if (!baseDatos.objectStoreNames.contains(ALMACEN_CLIENTES)) return resolve([]);
         const transaccion = baseDatos.transaction(ALMACEN_CLIENTES, 'readonly');
         const almacen = transaccion.objectStore(ALMACEN_CLIENTES);
         const peticion = almacen.getAll();
@@ -72,31 +73,6 @@ async function eliminarClienteBD(id) {
         peticion.onsuccess = () => resolve();
         peticion.onerror = () => reject(peticion.error);
     });
-}
-
-async function cargarClientesDesdeJSON() {
-    const existentes = await obtenerTodosLosClientes();
-    if (existentes.length === 0) {
-        try {
-            const respuesta = await fetch('data/clients.json');
-            if (respuesta.ok) {
-                const datos = await respuesta.json();
-                if (datos.clients && Array.isArray(datos.clients)) {
-                    for (const cliente of datos.clients) {
-                        if (cliente.favorito === undefined) cliente.favorito = false;
-                        if (!cliente.direccionHabitual && cliente.dirección) {
-                            cliente.direccionHabitual = cliente.dirección;
-                        }
-                        if (!Array.isArray(cliente.direccionesOcasionales)) cliente.direccionesOcasionales = [];
-                        if (!Array.isArray(cliente.historialPedidos)) cliente.historialPedidos = [];
-                        if (!Array.isArray(cliente.pedidosFiados)) cliente.pedidosFiados = [];
-                        await agregarClienteBD(cliente);
-                    }
-                }
-            }
-        } catch (e) {
-        }
-    }
 }
 
 async function renderizarListaClientes() {
@@ -415,7 +391,7 @@ async function registrarPedidoCliente(clienteId, datosPedido) {
     cliente.historialPedidos.push(pedidoParaHistorial);
 
     if (esFiado) {
-        cliente.pedidosFiados.push(pedidoParaHistorial);
+        cliente.pedidosFiados.push(pedidoForHistorial);
     }
 
     await actualizarClienteBD(cliente);
@@ -452,6 +428,6 @@ window.eliminarClienteRemota = async function(id) {
 };
 
 inicializarBaseDatos().then(async () => {
-    await cargarClientesDesdeJSON();
     renderizarListaClientes();
+}).catch(() => {
 });
