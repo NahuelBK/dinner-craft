@@ -1,0 +1,7 @@
+{
+    "items": [
+        {"id": 1, "name": "Premium Steak", "price": 45.00, "stock": 10, "catalogado": true},
+        {"id": 2, "name": "House Salad", "price": 12.50, "stock": 50, "catalogado": true},
+        {"id": 3, "name": "Dessert Platter", "price": 18.00, "stock": 20, "catalogado": true}
+    ]
+}

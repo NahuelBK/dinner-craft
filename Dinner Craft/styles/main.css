@@ -1,0 +1,186 @@
+:root {
+    --font-scale-base: 100%;
+    --transition-speed: 0.3s;
+}
+
+/* ========================================================================== */
+/* MODO CLARO (Por defecto) con sus 3 Temas */
+/* ========================================================================== */
+body.mode-light.theme-default, body:not(.mode-dark):not([class*="mode-"]) {
+    --color-primary: #007bff;
+    --color-primary-dark: #0056b3;
+    --color-background: #ffffff;
+    --color-text: #333333;
+    --color-card-bg: #f8f9fa;
+    --color-border: #dee2e6;
+}
+
+body.mode-light.theme-purple-blue {
+    --color-primary: #8e24aa;
+    --color-primary-dark: #5e008c;
+    --color-background: #f5f0ff;
+    --color-text: #2b2836;
+    --color-card-bg: #eef2ff;
+    --color-border: #c8b4ff;
+}
+
+body.mode-light.theme-orange-fuchsia {
+    --color-primary: #ff7f50;
+    --color-primary-dark: #c76e43;
+    --color-background: #fff3e0;
+    --color-text: #5d3e2a;
+    --color-card-bg: #ffeccf;
+    --color-border: #ffc9a9;
+}
+
+/* ========================================================================== */
+/* MODO OSCURO con sus 3 Temas */
+/* ========================================================================== */
+body.mode-dark.theme-default {
+    --color-primary: #3b82f6;
+    --color-primary-dark: #1d4ed8;
+    --color-background: #121212;
+    --color-text: #e0e0e0;
+    --color-card-bg: #1e1e1e;
+    --color-border: #333333;
+}
+
+body.mode-dark.theme-purple-blue {
+    --color-primary: #ab47bc;
+    --color-primary-dark: #7b1fa2;
+    --color-background: #120e18;
+    --color-text: #e6def8;
+    --color-card-bg: #1c1528;
+    --color-border: #4a3575;
+}
+
+body.mode-dark.theme-orange-fuchsia {
+    --color-primary: #ff9e7d;
+    --color-primary-dark: #e07a52;
+    --color-background: #1a120b;
+    --color-text: #fde8dc;
+    --color-card-bg: #261a12;
+    --color-border: #663d27;
+}
+
+/* ========================================================================== */
+/* TEMA SECRETO DE CUMPLEAÑOS */
+/* ========================================================================== */
+body.theme-birthday.mode-light {
+    --color-primary: #ec4899 !important;
+    --color-primary-dark: #be185d !important;
+    --color-background: #fdf2f8 !important;
+    --color-text: #831843 !important;
+    --color-card-bg: #fce7f3 !important;
+    --color-border: #fbcfe8 !important;
+}
+
+body.theme-birthday.mode-dark {
+    --color-primary: #f472b6 !important;
+    --color-primary-dark: #db2777 !important;
+    --color-background: #1a0f18 !important;
+    --color-text: #fbcfe8 !important;
+    --color-card-bg: #2d162b !important;
+    --color-border: #831843 !important;
+}
+
+/* Estilos Generales de Base */
+*, *::before, *::after {
+    box-sizing: border-box;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+body.normal { font-size: var(--font-scale-base); }
+body.mediano { font-size: 125%; }
+body.grande { font-size: 150%; }
+
+/* Header & Título con el color principal dinámico del tema */
+.site-header {
+    padding: 24px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, var(--color-card-bg) 0%, var(--color-background) 100%);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.título-marca {
+    font-size: 2.1rem;
+    font-weight: 1000;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--color-text) 0%, var(--color-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    background-color: var(--color-card-bg);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.nav-bar {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a.nav-item {
+    text-decoration: none;
+    display: inline-block;
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+a.nav-item:hover, a.nav-item.active {
+    background: none;
+    color: var(--color-primary);
+    transform: none;
+    border-bottom: 2px solid var(--color-primary);
+}
+
+main {
+    padding: 20px;
+}
+
+.crud-interface {
+    background: var(--color-card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    border: 1px solid var(--color-border);
+}
+
+.site-footer {
+    padding: 20px 36px;
+    background: var(--color-card-bg);
+    border-top: 1px solid var(--color-border);
+}
+
+#status-bar {
+    display: flex;
+    gap: 36px;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    opacity: 0.8;
+}
