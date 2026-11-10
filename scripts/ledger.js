@@ -2,14 +2,12 @@
 // SCRIPTS/LEDGER.JS - Transactional Reporting
 // ============================================================================
 
-// Assume 'ledger' object is globally available from main.js
 let currentLedger = {};
 
 function renderLedger() {
     const contentDiv = document.getElementById('content');
     if (!contentDiv) return console.error("Content div not found.");
     
-    // Basic HTML Table Generation
     let tableHtml = `
         <h2 style="margin-bottom: 20px;">Registro de datos</h2>
         <div class="crud-interface">
@@ -32,7 +30,6 @@ function renderLedger() {
     `;
     contentDiv.innerHTML = tableHtml;
     
-    // Populate rows
     const tbody = document.getElementById('ledger-body');
     if (tbody) {
         const rows = Object.values(ledger).sort((a, b) => new Date(b.Date) - new Date(a.Date)); // Newest first
@@ -48,6 +45,4 @@ function renderLedger() {
         `).join('');
     }
 }
-
-// Initialize ledger view
 renderLedger();
