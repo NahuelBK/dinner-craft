@@ -271,7 +271,6 @@ async function abrirModalEditarCliente(id) {
         htmlFiados = `<p style="font-size: 0.85rem; opacity: 0.7; font-style: italic; margin: 5px 0;">No tiene pedidos fiados pendientes.</p>`;
     } else {
         cliente.pedidosFiados.forEach((fiado, index) => {
-            // Convertir ítems a formato horizontal tipo Excel si vienen en array
             let itemsTexto = '';
             if (Array.isArray(fiado.items)) {
                 itemsTexto = fiado.items.map(it => `${it.nombre || it} $${it.precio || ''}`).filter(Boolean).join(', ');
@@ -295,7 +294,6 @@ async function abrirModalEditarCliente(id) {
     if (cliente.historialPedidos.length === 0) {
         htmlHistorial = `<p style="font-size: 0.85rem; opacity: 0.7; font-style: italic; margin: 5px 0;">Sin historial registrado.</p>`;
     } else {
-        // Mostramos en orden inverso (más recientes arriba)
         cliente.historialPedidos.slice().reverse().forEach(ped => {
             let itemsTexto = '';
             if (Array.isArray(ped.items)) {
