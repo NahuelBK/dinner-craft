@@ -95,7 +95,6 @@ async function cargarClientesDesdeJSON() {
                 }
             }
         } catch (e) {
-            console.log("No se pudo cargar JSON inicial o no existe, continuando con BD vacía.");
         }
     }
 }
@@ -162,9 +161,12 @@ async function renderizarListaClientes() {
     html += `</div>`;
     contenedorContenido.innerHTML = html;
 
-    document.getElementById('btn-abrir-popup-cliente').onclick = function() {
-        abrirModalCrearCliente();
-    };
+    const btnNuevo = document.getElementById('btn-abrir-popup-cliente');
+    if (btnNuevo) {
+        btnNuevo.onclick = function() {
+            abrirModalCrearCliente();
+        };
+    }
 }
 
 function abrirModalCrearCliente() {
@@ -194,8 +196,8 @@ function abrirModalCrearCliente() {
                 <input type="text" id="popupClienteDireccionHabitual" required style="width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 6px; background: #fff; color: #333;">
             </div>
             <div style="margin-bottom: 24px;">
-                <label style="display: block; font-size: 0.85rem; margin-bottom: 6px; color: var(--color-text);">Direcciones Ocasionales (Separadas por coma o una por línea, opcional):</label>
-                <textarea id="popupClienteOcasionales" placeholder="Ej: Calle falsa 123, Avenida Siempreviva 1996..." style="width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 6px; background: #fff; color: #333; height: 70px; resize: vertical;"></textarea>
+                <label style="display: block; font-size: 0.85rem; margin-bottom: 6px; color: var(--color-text);">Direcciones Ocasionales (Una por línea):</label>
+                <textarea id="popupClienteOcasionales" placeholder="Ej: Calle falsa 123, Avenida Siempreviva..." style="width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 6px; background: #fff; color: #333; height: 70px; resize: vertical;"></textarea>
             </div>
             <div style="display: flex; justify-content: flex-end; gap: 10px;">
                 <button type="button" id="btn-modal-cli-cancelar" style="padding: 10px 18px; background: #e5e7eb; color: #333; border: none; border-radius: 6px; cursor: pointer; font-weight: 500;">Cancelar</button>
@@ -336,7 +338,6 @@ async function abrirModalEditarCliente(id) {
                 <textarea id="popupClienteOcasionales" style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; background: #fff; color: #333; height: 60px; resize: vertical;">${cliente.direccionesOcasionales.join('\n')}</textarea>
             </div>
 
-            <!-- Contenedor con scroll vertical para Fiados Pendientes (aprox 5 líneas de alto max) -->
             <div style="border-top: 1px solid var(--color-border); padding-top: 12px; margin-bottom: 16px;">
                 <label style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; color: #dc2626;">Pedidos Fiados Pendientes:</label>
                 <div style="max-height: 160px; overflow-y: auto; padding-right: 4px;">
@@ -344,7 +345,6 @@ async function abrirModalEditarCliente(id) {
                 </div>
             </div>
 
-            <!-- Contenedor con scroll vertical para Historial de Pedidos (aprox 5 saltos de línea / 180px) -->
             <div style="border-top: 1px solid var(--color-border); padding-top: 12px; margin-bottom: 20px;">
                 <label style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; color: var(--color-text);">Últimos Pedidos (Historial):</label>
                 <div style="max-height: 180px; overflow-y: auto; padding-right: 4px;">
